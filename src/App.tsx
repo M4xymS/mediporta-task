@@ -1,7 +1,7 @@
 import {useGetAllTagsQuery} from "@/api/api.ts";
 import Header from "@/components/header/Header.tsx";
 import TableGrid from "@/components/table-grid/TableGrid.tsx";
-import {Column, Tag} from "@/types";
+import {Collective, Column, Tag} from "@/types";
 import {Badge, badgeVariants} from "@/components/ui/badge.tsx";
 import {CheckIcon, Cross2Icon, MagnifyingGlassIcon} from "@radix-ui/react-icons";
 import {Dialog, DialogTrigger} from "@/components/ui/dialog.tsx";
@@ -29,7 +29,7 @@ function App() {
         return value ? <CheckIcon/> : <Cross2Icon/>
     }
 
-    const tagsFormatter = (value: Pick<Tag, "collectives">) => {
+    const tagsFormatter = (value: Collective[]) => {
         if (value) {
             return (
                 <Dialog>
@@ -47,6 +47,7 @@ function App() {
                 </Dialog>
             )
         }
+        return undefined
     }
 
     const headers: Column<Tag>[] = [
