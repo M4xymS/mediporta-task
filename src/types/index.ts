@@ -35,7 +35,7 @@ export interface Column<T> {
     id?: string,
     size?: number,
     header?: string | ReactNode;
-    valueFormatter?: (value: typeof T) => ReactNode;
+    valueFormatter?: (value: any) => T[keyof T] | JSX.Element | undefined;
 }
 
 export type ValueOf<T> = T[keyof T]
