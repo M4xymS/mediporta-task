@@ -46,7 +46,7 @@ const TableGrid = <T,>({ data, headers, isLoading }: TableGridProps<T>) => {
                                 </TableCell>
                             </TableRow>
                         ) : (
-                            <TableBodyRows formattedData={formattedData} />
+                            <TableBodyRows headers={headers} formattedData={formattedData} />
                         )}
                     </TableBody>
                 </Table>
