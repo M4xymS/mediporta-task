@@ -6,21 +6,21 @@ const HeaderSocials = () => {
 
     return (
         <>
-            <Button className='p-3 rounded-full' variant='ghost'>
-                <a href="mailto:smolinskimaksym@gmail.com" target="_blank">
+            <a href="mailto:smolinskimaksym@gmail.com" target="_blank">
+                <Button className='p-3' variant='ghost'>
                     <EnvelopeClosedIcon className='size-3.5'/>
-                </a>
-            </Button>
-            <Button className='p-3 rounded-full' variant='ghost'>
-                <a href="https://www.linkedin.com/in/smolinskimaksym/" target="_blank">
+                </Button>
+            </a>
+            <a href="https://www.linkedin.com/in/smolinskimaksym/" target="_blank">
+                <Button className='p-3' variant='ghost'>
                     <LinkedInLogoIcon className='size-3.5'/>
-                </a>
-            </Button>
-            <Button className='p-3 rounded-full' variant='ghost'>
-                <a href="https://www.linkedin.com/in/smolinskimaksym/" target="_blank">
+                </Button>
+            </a>
+            <a href="https://github.com/M4xymS" target="_blank">
+                <Button className='p-3' variant='ghost'>
                     <GitHubLogoIcon className='size-3.5'/>
-                </a>
-            </Button>
+                </Button>
+            </a>
         </>
     )
 }
