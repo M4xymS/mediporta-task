@@ -1,5 +1,4 @@
 import {useGetAllTagsQuery} from "@/api/api.ts";
-import Header from "@/components/header/Header.tsx";
 import TableGrid from "@/components/table-grid/TableGrid.tsx";
 import {Collective, Column, Tag} from "@/types";
 import {Badge, badgeVariants} from "@/components/ui/badge.tsx";
@@ -12,8 +11,7 @@ import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip.t
 import {formatNumberWithSpaces} from "@/lib/utils.ts";
 
 function App() {
-    const {data, isLoading} = useGetAllTagsQuery({pageSize: 100})
-    const formattedDataType = data?.items as Tag[]
+    const {data, isLoading, isFetching} = useGetAllTagsQuery({pageSize: 100, page: 1})
 
     const countFormatter = (value: string) => {
         return (
@@ -36,7 +34,7 @@ function App() {
                     <DialogTrigger>
                         <Tooltip>
                             <TooltipTrigger asChild>
-                            <Button variant="ghost" size="sm"><MagnifyingGlassIcon/></Button>
+                                <Button variant="ghost" size="sm"><MagnifyingGlassIcon/></Button>
                             </TooltipTrigger>
                             <TooltipContent>
                                 Show details
@@ -79,17 +77,13 @@ function App() {
         }
     ]
 
-    if (isLoading) {
-        return <div>Loading...</div>
-    }
-
     return (
         <>
-            <Header/>
             <div className='mt-6 md:container flex-1'>
                 <TableGrid
+                    isLoading={isLoading || isFetching}
                     headers={headers}
-                    data={formattedDataType}
+                    data={data?.items}
                 />
             </div>
         </>

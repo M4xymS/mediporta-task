@@ -38,4 +38,12 @@ export interface Column<T> {
     valueFormatter?: (value: any) => T[keyof T] | JSX.Element | undefined;
 }
 
+export interface ApiParams {
+    page: number
+    pageSize: number
+    order?: string
+    sort?: string
+}
+
+
 export type ValueOf<T> = T[keyof T]
