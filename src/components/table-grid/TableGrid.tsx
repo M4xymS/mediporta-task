@@ -16,6 +16,7 @@ const TableGrid = <T,>({ data, headers }: TableGridProps<T>) => {
                 columns.forEach((header) => {
                     const { key, valueFormatter } = header;
                     const value = item[key];
+                    // @ts-ignore - this is a dynamic key so it's not possible to type it correctly
                     formattedData[key] = valueFormatter ? valueFormatter(value) : value;
                 });
                 return formattedData;
