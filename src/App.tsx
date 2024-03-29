@@ -11,8 +11,10 @@ import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip.t
 import {formatNumberWithSpaces} from "@/lib/utils.ts";
 
 function App() {
-    const {data, isLoading} = useGetAllTagsQuery({pageSize: 100})
-    const formattedDataType = data?.items as Tag[]
+    const {data, isLoading} = useGetAllTagsQuery({pageSize: 100, page: 1})
+
+
+
     const countFormatter = (value: string) => {
         return (
             <Badge variant='outline' className='whitespace-nowrap'>{formatNumberWithSpaces(value)}</Badge>
@@ -83,7 +85,7 @@ function App() {
                 <TableGrid
                     isLoading={isLoading}
                     headers={headers}
-                    data={formattedDataType}
+                    data={data?.items}
                 />
             </div>
         </>
