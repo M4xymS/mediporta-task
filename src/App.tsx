@@ -11,9 +11,7 @@ import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip.t
 import {formatNumberWithSpaces} from "@/lib/utils.ts";
 
 function App() {
-    const {data, isLoading} = useGetAllTagsQuery({pageSize: 100, page: 1})
-
-
+    const {data, isLoading, isFetching} = useGetAllTagsQuery({pageSize: 100, page: 1})
 
     const countFormatter = (value: string) => {
         return (
@@ -83,7 +81,7 @@ function App() {
         <>
             <div className='mt-6 md:container flex-1'>
                 <TableGrid
-                    isLoading={isLoading}
+                    isLoading={isLoading || isFetching}
                     headers={headers}
                     data={data?.items}
                 />
