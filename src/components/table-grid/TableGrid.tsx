@@ -5,15 +5,15 @@ import TableBodyRows from "@/components/table-grid/TableBodyRows.tsx";
 import {SymbolIcon} from "@radix-ui/react-icons";
 
 interface TableGridProps<T> {
-    data: T[];
+    data?: T[];
     headers: Column<T>[];
     isLoading: boolean
 }
 
 const TableGrid = <T,>({ data, headers, isLoading }: TableGridProps<T>) => {
-    function formatData(columns: Column<T>[], data: T[]): Partial<T>[] {
+    function formatData(columns: Column<T>[], data: T[] | undefined): Partial<T>[] {
         if (data && columns) {
-            return data.map((item) => {
+            return data?.map((item) => {
                 const formattedData: Partial<T> = {};
                 columns.forEach((header) => {
                     const { key, valueFormatter } = header;
