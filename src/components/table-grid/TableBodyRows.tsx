@@ -1,5 +1,5 @@
 import {TableCell, TableRow} from "@/components/ui/table.tsx";
-import React, {ReactNode} from "react";
+import {ReactNode} from "react";
 import {Column} from "@/types";
 import {InfoCircledIcon} from "@radix-ui/react-icons";
 
