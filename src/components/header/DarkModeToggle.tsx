@@ -38,8 +38,8 @@ const DarkModeToggle = ({defaultTheme = "dark"}: DarkModeToggle) => {
 
     return (
         <DropdownMenu>
-            <DropdownMenuTrigger>
-                <Button variant="ghost" size="icon" className='p-3 rounded-full'>
+            <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className='p-3'>
                     {theme === "light" ? <SunIcon className='transition-all size-3.5'/> :
                         <MoonIcon className='transition-all size-3.5'/>}
                     <span className='sr-only'>Toggle theme</span>
