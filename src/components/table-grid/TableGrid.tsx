@@ -1,6 +1,7 @@
-import {ReactNode} from "react";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table.tsx";
-import { Column } from "@/types";
+import {Table, TableBody, TableHeader} from "@/components/ui/table.tsx";
+import {Column} from "@/types";
+import TableHeaderRows from "@/components/table-grid/TableHeaderRows.tsx";
+import TableBodyRows from "@/components/table-grid/TableBodyRows.tsx";
 
 interface TableGridProps<T> {
     data: T[];
@@ -22,7 +23,6 @@ const TableGrid = <T,>({ data, headers }: TableGridProps<T>) => {
         }
         return [];
     }
-
     const formattedData: Partial<T>[] = formatData(headers, data);
 
     return (
@@ -30,25 +30,10 @@ const TableGrid = <T,>({ data, headers }: TableGridProps<T>) => {
             <div className="rounded-md w-full border mb-4">
                 <Table>
                     <TableHeader>
-                        <TableRow>
-                            {headers.map((header, index) => {
-                                const headerSize = header?.size ? { width: `${header.size}px` } : { width: "150px" };
-                                return (
-                                    <TableHead style={headerSize} key={index}>
-                                        {header.id ? null : header.header}
-                                    </TableHead>
-                                );
-                            })}
-                        </TableRow>
+                        <TableHeaderRows headers={headers} />
                     </TableHeader>
                     <TableBody>
-                        {formattedData?.map((cells, rowIndex) => (
-                            <TableRow key={rowIndex}>
-                                {Object.values(cells).map((cell, cellIndex) => (
-                                    <TableCell key={cellIndex} className='text-xs'>{cell as ReactNode}</TableCell>
-                                ))}
-                            </TableRow>
-                        ))}
+                        <TableBodyRows formattedData={formattedData} />
                     </TableBody>
                 </Table>
             </div>
