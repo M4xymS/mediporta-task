@@ -43,7 +43,7 @@ export interface Column<T> {
 export interface ApiParams {
     page: number
     pageSize: number
-    order?: SortingOrder
+    order?: string
     sort?: string
 }
 

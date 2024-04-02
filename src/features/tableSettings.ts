@@ -3,12 +3,14 @@ import {RootState} from "@/store/store.ts";
 import {api} from "@/api/api.ts";
 
 
+const params = new URLSearchParams(window.location.search);
+
 const initialState = {
     pageSize: 100,
-    page: Number(new URLSearchParams(window.location.search).get('page')) || 1,
+    page: Number(params.get('page')) || 1,
     hasMore: true,
-    order: new URLSearchParams(window.location.search).get('order') || 'desc',
-    sort: new URLSearchParams(window.location.search).get('sort') || 'popular'
+    order: params.get('order') || 'desc',
+    sort: params.get('sort') || 'popular'
 }
 
 const tableSettings = createSlice({
