@@ -1,5 +1,6 @@
 import {ReactNode} from "react";
 
+
 export interface Tag {
     collectives?: Collective[]
     has_synonyms: boolean
@@ -35,7 +36,8 @@ export interface Column<T> {
     id?: string,
     size?: number,
     header?: string | ReactNode;
-    valueFormatter?: (value: any) => T[keyof T] | JSX.Element | undefined;
+    valueFormatter?: (value: never) => T[keyof T] | ReactNode | undefined;
+    sort?: string
 }
 
 export interface ApiParams {
@@ -47,3 +49,5 @@ export interface ApiParams {
 
 
 export type ValueOf<T> = T[keyof T]
+
+export type SortingOrder = 'asc' | 'desc'
