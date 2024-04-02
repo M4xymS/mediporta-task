@@ -4,15 +4,13 @@ import TableHeaderRows from "@/components/table-grid/TableHeaderRows.tsx";
 import TableBodyRows from "@/components/table-grid/TableBodyRows.tsx";
 import {SymbolIcon} from "@radix-ui/react-icons";
 import TableToolbar from "@/components/table-grid/TableToolbar.tsx";
-import {useEffect} from "react";
 
 interface TableGridProps<T> {
     data?: T[];
     headers: Column<T>[];
     isLoading?: boolean
     pagination?: boolean
-    currentPage?: number
-    setCurrentPage?: (page: number) => void
+    maxPageSize?: number
 }
 
 const TableGrid = <T, >({
@@ -20,17 +18,8 @@ const TableGrid = <T, >({
                             headers,
                             isLoading,
                             pagination = false,
-                            setCurrentPage,
-                            currentPage,
+                            maxPageSize
                         }: TableGridProps<T>) => {
-
-    useEffect(() => {
-        const searchParams = new URLSearchParams(window.location.search);
-        const page = searchParams.get('page');
-        if (page && setCurrentPage) {
-            setCurrentPage(parseInt(page));
-        }
-    }, [setCurrentPage]);
 
     function formatData(columns: Column<T>[], data: T[] | undefined): Partial<T>[] {
         if (data && columns) {
@@ -50,21 +39,17 @@ const TableGrid = <T, >({
 
     const formattedData = formatData(headers, data);
 
-    useEffect(() => {
-        const searchParams = new URLSearchParams(window.location.search);
-        const page = searchParams.get('page');
-        if (page && setCurrentPage) {
-            setCurrentPage(parseInt(page));
-        }
-    }, [currentPage, setCurrentPage]);
-
     return (
-        <div className='w-full space-y-2 overflow-auto'>
-            {pagination && <TableToolbar currentPage={currentPage} setCurrentPage={setCurrentPage}/>}
-            <div className="rounded-md w-full border mb-4">
+        <div className='w-full space-y-2 overflow-auto mb-4'>
+            {pagination && <TableToolbar pagination={pagination} maxPageSize={maxPageSize}/>}
+            <div className="rounded-md w-full border">
                 <Table>
                     <TableHeader>
-                        <TableHeaderRows headers={headers}/>
+                        <TableRow>
+                            {headers.map((header, index) => (
+                                <TableHeaderRows header={header} key={index}/>
+                            ))}
+                        </TableRow>
                     </TableHeader>
                     <TableBody>
                         {isLoading ? (
