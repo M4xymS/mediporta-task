@@ -17,7 +17,7 @@ function General() {
     const pageSize = useAppSelector(getPageSize);
     const order = useAppSelector(getOrder);
     const sort = useAppSelector(getSort);
-    const {data, isLoading, isFetching} = useGetAllTagsQuery({pageSize, page, sort, order});
+    const {data, isLoading, isFetching, isError, error} = useGetAllTagsQuery({pageSize, page, sort, order});
 
     const countFormatter = (value: string) => {
         return (
@@ -93,6 +93,8 @@ function General() {
                     headers={headers}
                     data={data?.items}
                     pagination
+                    isError={isError}
+                    error={error}
                 />
             </div>
         </>
