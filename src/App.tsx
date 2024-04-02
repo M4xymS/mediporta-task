@@ -9,9 +9,16 @@ import DialogDetails from "@/components/dialog/DialogDetails.tsx";
 import {tagLink} from "@/constants/tagLinks.ts";
 import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip.tsx";
 import {formatNumberWithSpaces} from "@/lib/utils.ts";
+import {useState} from "react";
 
 function App() {
-    const {data, isLoading, isFetching} = useGetAllTagsQuery({pageSize: 100, page: 1})
+    const [currentPage, setCurrentPage] = useState(() => {
+        const searchParams = new URLSearchParams(window.location.search);
+        const page = searchParams.get('page');
+        return page ? parseInt(page) : 1;
+    })
+    const {data, isLoading, isFetching} = useGetAllTagsQuery({pageSize: 100, page: currentPage});
+
 
     const countFormatter = (value: string) => {
         return (
@@ -81,9 +88,12 @@ function App() {
         <>
             <div className='mt-6 md:container flex-1'>
                 <TableGrid
+                    currentPage={currentPage}
+                    setCurrentPage={setCurrentPage}
                     isLoading={isLoading || isFetching}
                     headers={headers}
                     data={data?.items}
+                    pagination
                 />
             </div>
         </>
