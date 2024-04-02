@@ -9,20 +9,15 @@ import DialogDetails from "@/components/dialog/DialogDetails.tsx";
 import {tagLink} from "@/constants/tagLinks.ts";
 import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip.tsx";
 import {formatNumberWithSpaces} from "@/lib/utils.ts";
-import {useState} from "react";
 import {useAppSelector} from "@/store/storeHooks.ts";
-import {getPageSize} from "@/features/tableSettings.ts";
+import {getOrder, getPage, getPageSize, getSort} from "@/features/tableSettings.ts";
 
 function General() {
-    const [currentPage, setCurrentPage] = useState(() => {
-        const searchParams = new URLSearchParams(window.location.search);
-        const page = searchParams.get('page');
-        return page ? parseInt(page) : 1;
-    })
-
+    const page = useAppSelector(getPage);
     const pageSize = useAppSelector(getPageSize);
-    const {data, isLoading, isFetching} = useGetAllTagsQuery({pageSize, page: currentPage});
-
+    const order = useAppSelector(getOrder);
+    const sort = useAppSelector(getSort);
+    const {data, isLoading, isFetching} = useGetAllTagsQuery({pageSize, page, sort, order});
 
     const countFormatter = (value: string) => {
         return (
@@ -63,12 +58,14 @@ function General() {
         {
             key: 'count',
             header: 'Count',
-            valueFormatter: countFormatter
+            valueFormatter: countFormatter,
+            sort: 'popular'
         },
         {
             key: 'name',
             header: 'Name',
-            valueFormatter: nameFormatter
+            valueFormatter: nameFormatter,
+            sort: 'name'
         },
         {
             key: 'has_synonyms',
@@ -92,8 +89,6 @@ function General() {
         <>
             <div className='mt-6 md:container flex-1'>
                 <TableGrid
-                    currentPage={currentPage}
-                    setCurrentPage={setCurrentPage}
                     isLoading={isLoading || isFetching}
                     headers={headers}
                     data={data?.items}
