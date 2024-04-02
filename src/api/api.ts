@@ -20,6 +20,7 @@ export const api = createApi({
                     url: "/tags",
                     params: {
                         ...args,
+                        page: new URLSearchParams(window.location.search).get('page') ? parseInt(new URLSearchParams(window.location.search).get('page')!) : 1,
                         site: "stackoverflow",
                         key: API_KEY
                     }
