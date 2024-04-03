@@ -1,18 +1,18 @@
 import {ReactNode} from "react";
 
 
-export interface Tag {
-    collectives?: Collective[]
-    has_synonyms: boolean
-    is_moderator_only: boolean
-    is_required: boolean
-    count: number
-    name: string
-}
 
-export type External_Link = {
+export interface External_Link {
     type: string
     link: string
+}
+
+
+export interface APIResponse {
+    items: Tag[]
+    has_more: boolean;
+    quota_max: number
+    quota_remaining: number
 }
 
 export interface Collective {
@@ -24,11 +24,13 @@ export interface Collective {
     slug: string
 }
 
-export interface APIResponse {
-    items: Tag[]
-    has_more: boolean;
-    quota_max: number
-    quota_remaining: number
+export interface Tag {
+    collectives?: Collective[]
+    has_synonyms: boolean
+    is_moderator_only: boolean
+    is_required: boolean
+    count: number
+    name: string
 }
 
 export interface Column<T> {
@@ -36,7 +38,7 @@ export interface Column<T> {
     id?: string,
     size?: number,
     header?: string | ReactNode;
-    valueFormatter?: (value: never) => T[keyof T] | ReactNode | undefined;
+    valueFormatter?: (value: any) => ReactNode | undefined;
     sort?: string
 }
 
@@ -47,7 +49,3 @@ export interface ApiParams {
     sort?: string
 }
 
-
-export type ValueOf<T> = T[keyof T]
-
-export type SortingOrder = 'asc' | 'desc'

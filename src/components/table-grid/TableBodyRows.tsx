@@ -2,9 +2,10 @@ import {ReactNode} from 'react';
 import { TableCell, TableRow } from "@/components/ui/table.tsx";
 import { InfoCircledIcon } from "@radix-ui/react-icons";
 import { Column } from "@/types";
+import {PartialOrReactNode} from "@/types/types.ts";
 
 interface TableBodyRowsProps<T> {
-    formattedData: Partial<T>[];
+    formattedData: PartialOrReactNode<T>[];
     headers: Column<T>[];
 }
 
