@@ -9,23 +9,23 @@ import {Label} from "@/components/ui/label.tsx";
 import {Collective} from "@/types";
 
 interface DialogDetailsProps {
-    data: Collective[];
+    collectives: Collective[];
 }
 
-const DialogDetails: React.FC<DialogDetailsProps> = ({data}) => {
+const DialogTagsDetails = ({collectives}: DialogDetailsProps) => {
     const [filteredData, setFilteredData] = useState<string[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>("");
 
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
         const term = e.target.value.toLowerCase();
         setSearchTerm(term);
-        const results = data[0]?.tags.filter(tag => tag.toLowerCase().includes(term));
+        const results = collectives[0]?.tags.filter((tag: string) => tag.toLowerCase().includes(term));
         setFilteredData(results);
     };
 
     const renderTags = () => {
-        const tagsToRender = searchTerm !== "" ? filteredData : data[0].tags;
-        return tagsToRender.map(tag => (
+        const tagsToRender = searchTerm !== "" ? filteredData : collectives[0].tags;
+        return tagsToRender.map((tag: string) => (
             <React.Fragment key={tag}>
                 <a href={tagLink + tag} target="_blank" className={badgeVariants()}>
                     {tag}
@@ -36,7 +36,7 @@ const DialogDetails: React.FC<DialogDetailsProps> = ({data}) => {
     };
 
     const renderFields = () => {
-        return Object.entries(data[0]).map(([key, value]) => (
+        return Object.entries(collectives[0]).map(([key, value]) => (
             typeof value === 'string' && key !== "description" && (
                 <div key={key}>
                     <Label htmlFor={key} className="text-right">
@@ -52,9 +52,9 @@ const DialogDetails: React.FC<DialogDetailsProps> = ({data}) => {
     return (
         <DialogContent className="sm:max-w-10/12">
             <DialogHeader>
-                <DialogTitle>{data[0].name}</DialogTitle>
+                <DialogTitle>{collectives[0].name}</DialogTitle>
                 <DialogDescription>
-                    {data[0].description}
+                    {collectives[0].description}
                 </DialogDescription>
             </DialogHeader>
             <div className="flex">
@@ -73,10 +73,10 @@ const DialogDetails: React.FC<DialogDetailsProps> = ({data}) => {
                 </div>
             </div>
             <DialogFooter>
-                <p className='opacity-60 text-xs'>Number of tags: {data[0].tags.length}</p>
+                <p className='opacity-60 text-xs'>Number of tags: {collectives[0].tags.length}</p>
             </DialogFooter>
         </DialogContent>
     );
 };
 
-export default DialogDetails;
+export default DialogTagsDetails;

@@ -1,3 +1,9 @@
+import { ChangeEvent, FC, useEffect } from "react";
+import { Input } from "@/components/ui/input.tsx";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip.tsx";
+import { useAppDispatch, useAppSelector } from "@/store/storeHooks.ts";
+import { getPage, getSort, getHasMore, setPage, setPageSize } from "@/features/tableSettings.ts";
+import useDebounce from "@/hooks/useDebounce.ts";
 import {
     Pagination,
     PaginationContent,
@@ -5,25 +11,20 @@ import {
     PaginationNext,
     PaginationPrevious
 } from "@/components/ui/pagination.tsx";
-import {ChangeEvent, FC, useEffect} from "react";
-import {Input} from "@/components/ui/input.tsx";
-import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip.tsx";
-import {useAppDispatch, useAppSelector} from "@/store/storeHooks.ts";
-import {getHasMore, getPage, getSort, setPage, setPageSize} from "@/features/tableSettings.ts";
-import useDebounce from "@/hooks/useDebounce.ts";
 
 interface TableToolbarProps {
-    pagination: boolean
-    maxPageSize?: number
+    pagination: boolean;
+    maxPageSize?: number;
 }
 
-const TableToolbar: FC<TableToolbarProps> = ({pagination, maxPageSize}) => {
-    const params = new URLSearchParams(window.location.search);
+const TableToolbar: FC<TableToolbarProps> = ({ pagination, maxPageSize }) => {
     const dispatch = useAppDispatch();
     const page = useAppSelector(getPage);
     const order = useAppSelector(getSort);
     const hasMore = useAppSelector(getHasMore);
+
     useEffect(() => {
+        const params = new URLSearchParams(window.location.search);
         if (!pagination) {
             params.delete('page');
         } else {
@@ -32,16 +33,15 @@ const TableToolbar: FC<TableToolbarProps> = ({pagination, maxPageSize}) => {
         window.history.replaceState({}, '', `?${params}`);
     }, [page, pagination, order]);
 
-
     const onNextPage = () => {
-        if (hasMore) dispatch(setPage(page + 1))
-    }
+        if (hasMore) dispatch(setPage(page + 1));
+    };
 
     const onPreviousPage = () => {
-        if (page !== 1) dispatch(setPage(page - 1))
-    }
+        if (page !== 1) dispatch(setPage(page - 1));
+    };
 
-    const debouncedSetPageSize = useDebounce((value) => {
+    const debouncedSetPageSize = useDebounce((value: number) => {
         dispatch(setPageSize(value));
     }, 500);
 
@@ -51,7 +51,7 @@ const TableToolbar: FC<TableToolbarProps> = ({pagination, maxPageSize}) => {
         value = Math.min(maxPageSize ?? 100, Math.max(0, value));
 
         debouncedSetPageSize(value);
-    }
+    };
 
     return (
         <div className='flex justify-end'>
@@ -72,8 +72,7 @@ const TableToolbar: FC<TableToolbarProps> = ({pagination, maxPageSize}) => {
                 <Pagination className='flex justify-end'>
                     <PaginationContent>
                         <PaginationItem>
-                            <PaginationPrevious onClick={onPreviousPage}
-                                                className='cursor-pointer'>Previous</PaginationPrevious>
+                            <PaginationPrevious onClick={onPreviousPage} className='cursor-pointer'>Previous</PaginationPrevious>
                         </PaginationItem>
                         <PaginationItem>
                             <PaginationNext onClick={onNextPage} className='cursor-pointer'>Next</PaginationNext>
@@ -82,7 +81,7 @@ const TableToolbar: FC<TableToolbarProps> = ({pagination, maxPageSize}) => {
                 </Pagination>
             </div>
         </div>
-    )
-}
+    );
+};
 
 export default TableToolbar;

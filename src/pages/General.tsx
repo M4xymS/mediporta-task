@@ -5,7 +5,7 @@ import {Badge, badgeVariants} from "@/components/ui/badge.tsx";
 import {CheckIcon, Cross2Icon, MagnifyingGlassIcon} from "@radix-ui/react-icons";
 import {Dialog, DialogTrigger} from "@/components/ui/dialog.tsx";
 import {Button} from "@/components/ui/button.tsx";
-import DialogDetails from "@/components/dialog/DialogDetails.tsx";
+import DialogTagsDetails from "@/components/dialog/DialogTagsDetails.tsx";
 import {tagLink} from "@/constants/tagLinks.ts";
 import {Tooltip, TooltipContent, TooltipTrigger} from "@/components/ui/tooltip.tsx";
 import {formatNumberWithSpaces} from "@/lib/utils.ts";
@@ -17,24 +17,10 @@ function General() {
     const pageSize = useAppSelector(getPageSize);
     const order = useAppSelector(getOrder);
     const sort = useAppSelector(getSort);
-    const {data, isLoading, isFetching} = useGetAllTagsQuery({pageSize, page, sort, order});
-
-    const countFormatter = (value: string) => {
-        return (
-            <Badge variant='outline' className='whitespace-nowrap'>{formatNumberWithSpaces(value)}</Badge>
-        )
-    }
-
-    const nameFormatter = (value: string) => {
-        return <a href={tagLink + value} target="_blank" className={badgeVariants() + " capitalize"}>{value}</a>
-    }
-
-    const booleanFormatter = (value: boolean) => {
-        return value ? <CheckIcon/> : <Cross2Icon/>
-    }
+    const {data, isLoading, isFetching, isError, error} = useGetAllTagsQuery({pageSize, page, sort, order});
 
     const tagsFormatter = (value: Collective[]) => {
-        if (value) {
+        if (Array.isArray(value) && value.length > 0) {
             return (
                 <Dialog>
                     <DialogTrigger>
@@ -47,12 +33,26 @@ function General() {
                             </TooltipContent>
                         </Tooltip>
                     </DialogTrigger>
-                    <DialogDetails data={value}/>
+                    <DialogTagsDetails collectives={value}/>
                 </Dialog>
             )
         }
         return undefined
     }
+
+    const countFormatter = (value: number) => {
+        return <Badge variant='outline' className='whitespace-nowrap'>{formatNumberWithSpaces(value)}</Badge>
+    }
+
+    const nameFormatter = (value: string) => {
+        return <a href={tagLink + value} target="_blank"
+                  className={badgeVariants() + " capitalize"}>{value as string}</a>
+    }
+
+    const booleanFormatter = (value: boolean) => {
+        return value ? <CheckIcon/> : <Cross2Icon/>
+    }
+
 
     const headers: Column<Tag>[] = [
         {
@@ -93,6 +93,8 @@ function General() {
                     headers={headers}
                     data={data?.items}
                     pagination
+                    isError={isError}
+                    error={error}
                 />
             </div>
         </>
