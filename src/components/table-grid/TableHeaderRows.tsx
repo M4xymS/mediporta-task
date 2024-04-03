@@ -22,15 +22,17 @@ const TableHeaderRows = <T,>({ header }: TableHeaderRowsProps<T>) => {
         params.set('sort', header.sort as string);
         window.history.replaceState({}, '', `?${params}`);
     };
+    const headerSize = header.size ? {width: `${header.size}px`} : {width: "150px"};
 
     if (!header.sort) {
         return (
-            <TableHead>{header.header}</TableHead>
+            <TableHead style={headerSize}>{header.header}</TableHead>
         )
     }
 
+
     return (
-        <TableHead>
+        <TableHead style={headerSize}>
             <div className='flex items-center'>
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
