@@ -60,7 +60,7 @@ const DialogTagsDetails = ({collectives}: DialogDetailsProps) => {
             <div className="flex">
                 <div className='w-full'>
                     <Label htmlFor="name" className="text-right">Search Tags</Label>
-                    <Input className='mb-6' value={searchTerm} onChange={handleSearch}/>
+                    <Input className='mb-6' autoFocus={false} value={searchTerm} onChange={handleSearch}/>
                     <ScrollArea className="h-72 rounded-md border">
                         <div className="p-4">
                             <h4 className="mb-4 text-sm font-medium leading-none">Tags</h4>
