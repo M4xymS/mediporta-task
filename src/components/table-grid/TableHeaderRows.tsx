@@ -1,10 +1,11 @@
 import { TableHead } from "@/components/ui/table.tsx";
-import { Column, SortingOrder } from "@/types";
+import { Column } from "@/types";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu.tsx";
 import { Button } from "@/components/ui/button.tsx";
 import { CaretDownIcon, CaretSortIcon, CaretUpIcon } from "@radix-ui/react-icons";
 import { useAppDispatch } from "@/store/storeHooks.ts";
 import { setOrder, setSort } from "@/features/tableSettings.ts";
+import {SortingOrder} from "@/types/types.ts";
 
 interface TableHeaderRowsProps<T> {
     header: Column<T>;
@@ -21,6 +22,12 @@ const TableHeaderRows = <T,>({ header }: TableHeaderRowsProps<T>) => {
         params.set('sort', header.sort as string);
         window.history.replaceState({}, '', `?${params}`);
     };
+
+    if (!header.sort) {
+        return (
+            <TableHead>{header.header}</TableHead>
+        )
+    }
 
     return (
         <TableHead>
